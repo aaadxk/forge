@@ -1744,7 +1744,10 @@ function restoreBackup(event){
       S.exH = d.exH||{};
       S.restSecs = d.restSecs||90;
       S.notes = d.notes||{};
-      if(d.P) P = d.P;
+      // Only restore plan if it matches current version, otherwise keep defaults
+      if(d.P && d.planVer===PLAN_VER){
+        P = d.P;
+      }
       saveData();
       renderHome();
       toast('✅ Backup restored!');
