@@ -213,7 +213,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;c
 
 input[type=file]{display:none}
 
-/* Coach screen */
+/* Workout timer pill */
+.wk-timer-pill{position:fixed;top:12px;right:12px;background:rgba(20,20,22,.92);border:1px solid var(--or);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:700;color:var(--or);z-index:150;display:none;font-variant-numeric:tabular-nums;backdrop-filter:blur(8px)}
+.wk-timer-pill.on{display:block}
+
+/* Workout summary screen */
+.summary-screen{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:250;overflow-y:auto;padding:24px 20px 40px}
+.summary-screen.on{display:block}
+.summary-hero{background:linear-gradient(135deg,#1a2d1a,#141a14);border:1px solid rgba(0,210,106,.3);border-radius:20px;padding:24px;text-align:center;margin-bottom:16px}
+.summary-icon{font-size:52px;margin-bottom:10px}
+.summary-title{font-size:24px;font-weight:900;letter-spacing:2px;margin-bottom:4px}
+.summary-subtitle{font-size:13px;color:var(--t2)}
+.summary-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0}
+.summary-stat{background:var(--card);border:1px solid var(--bor);border-radius:14px;padding:14px;text-align:center}
+.summary-stat-val{font-size:22px;font-weight:800;color:var(--gr)}
+.summary-stat-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:3px}
+.summary-pr-box{background:linear-gradient(135deg,#2d2800,#1a1800);border:1px solid rgba(255,193,7,.3);border-radius:14px;padding:14px;margin-bottom:12px}
+.summary-pr-title{font-size:12px;color:var(--yl);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.summary-pr-item{font-size:13px;color:var(--t1);padding:3px 0}
+.summary-ex-list{margin-bottom:16px}
+.summary-ex{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:12px;margin-bottom:8px}
+.summary-ex-name{font-size:14px;font-weight:700;margin-bottom:6px}
+.summary-ex-sets{display:flex;gap:6px;flex-wrap:wrap}
+.summary-set-chip{background:var(--card2);border-radius:6px;padding:4px 9px;font-size:12px;color:var(--t2)}
+.summary-set-chip b{color:var(--t1)}
+
+
 .coach-header{background:linear-gradient(135deg,#1a1520,#151518);border:1px solid var(--bor);border-radius:20px;padding:20px;margin-bottom:14px;text-align:center}
 .coach-title{font-size:20px;font-weight:800;margin-bottom:4px}
 .coach-sub{font-size:12px;color:var(--t2)}
@@ -251,6 +276,14 @@ input[type=file]{display:none}
     <div class="tab" onclick="showTab('library')">📚 Library</div>
     <div class="tab" onclick="showTab('customize')">🔧 Customize</div>
     <div class="tab" onclick="showTab('settings')">⚙️ Settings</div>
+  </div>
+
+  <!-- Workout Timer Pill (always visible during workout) -->
+  <div class="wk-timer-pill" id="wkTimerPill" onclick="showTab('workout')">⏱ <span id="wkTimerDisplay">00:00</span></div>
+
+  <!-- Workout Summary Screen -->
+  <div class="summary-screen" id="summaryScreen">
+    <div id="summaryContent"></div>
   </div>
 
   <!-- HOME -->
@@ -531,6 +564,7 @@ var PLAN_VER = 3; // Bump this when default plan changes
 var S = {hst:[],prs:{},exH:{},restSecs:90,notes:{}};
 var WK = {active:false,dayKey:null,exIdx:0,startTime:null,sets:[],volume:0,completedSets:0};
 var restTimer = null;
+var wkTimerInterval = null;
 var exTimerInterval = null;
 var exTimerRunning = false;
 var exTimerSecs = 0;
@@ -770,6 +804,7 @@ function startWorkout(dayKey){
   WK.startTime = Date.now();
   WK.volume = 0;
   WK.completedSets = 0;
+  startWkTimer();
   WK.sets = exercises.map(function(id){
     var ex = E[id];
     var numSets = ex.sets||3;
@@ -1173,28 +1208,36 @@ function skipExercise(){
 }
 
 function removeExFromWorkout(){
-  if(!confirm('Remove this exercise from today\'s workout?')) return;
+  if(!confirm('Remove this exercise from today\'s workout and all future workouts this week?')) return;
   var exercises = getWkExercises();
   if(exercises.length<=1){
     toast('Can\'t remove the last exercise');
     return;
   }
+  var removedId = exercises[WK.exIdx];
   // Copy exercise list to WK if not already
   if(!WK.exList) WK.exList = exercises.slice();
-  // Remove exercise and its sets
+  // Remove from session
   WK.exList.splice(WK.exIdx,1);
   WK.sets.splice(WK.exIdx,1);
   if(WK.exIdx>=WK.exList.length) WK.exIdx = WK.exList.length-1;
+  // Also remove from the plan permanently so it's gone going forward
+  var planEx = P[WK.dayKey].e;
+  var planIdx = planEx.indexOf(removedId);
+  if(planIdx>-1) planEx.splice(planIdx,1);
+  saveData();
   saveWorkout();
   renderWorkoutExercise();
   window.scrollTo(0,0);
-  toast('Exercise removed from workout');
+  toast('Exercise removed from workout & plan');
 }
 
 function finishWorkout(){
   var plan = P[WK.dayKey];
   var exercises = getWkExercises();
-  var dur = Math.floor((Date.now()-WK.startTime)/60000);
+  var durMs = Date.now() - WK.startTime;
+  var dur = Math.floor(durMs / 60000);
+  var durSecs = Math.floor(durMs / 1000) % 60;
   var exData = [];
   var newPRs = [];
 
@@ -1202,16 +1245,13 @@ function finishWorkout(){
     var exId = exercises[i];
     var sets = WK.sets[i].filter(function(s){return s.done;});
     if(sets.length===0) continue;
-
     var exVol = sets.reduce(function(sum,s){return sum+s.w*s.r;},0);
     exData.push({id:exId,sets:sets,vol:exVol});
-
-    // Check PRs
     sets.forEach(function(s){
       var cur = S.prs[exId];
       if(!cur || s.w>cur.w || (s.w===cur.w && s.r>cur.r)){
         S.prs[exId] = {w:s.w,r:s.r,dt:new Date().toLocaleDateString()};
-        newPRs.push(E[exId].n);
+        newPRs.push(E[exId] ? E[exId].n : exId);
       }
     });
   }
@@ -1229,14 +1269,95 @@ function finishWorkout(){
 
   S.hst.push(record);
   saveData();
-  resetWorkoutState();
 
+  // Build summary screen before resetting state
+  showWorkoutSummary(record, newPRs, dur, durSecs);
+  resetWorkoutState();
+}
+
+function showWorkoutSummary(record, newPRs, dur, durSecs){
+  var html = '';
+  // Hero
+  html += '<div class="summary-hero">';
+  html += '<div class="summary-icon">'+(newPRs.length>0?'🏆':'💪')+'</div>';
+  html += '<div class="summary-title">WORKOUT DONE</div>';
+  html += '<div class="summary-subtitle">'+record.nm+' · '+record.dt+'</div>';
+  html += '</div>';
+
+  // Stats grid
+  var durStr = dur+'m '+(durSecs>0?durSecs+'s':'');
+  var vol = record.vol||0;
+  var volStr = vol>1000?(vol/1000).toFixed(1)+'k':vol;
+  html += '<div class="summary-stats">';
+  html += '<div class="summary-stat"><div class="summary-stat-val">'+durStr+'</div><div class="summary-stat-lbl">Duration</div></div>';
+  html += '<div class="summary-stat"><div class="summary-stat-val">'+volStr+'</div><div class="summary-stat-lbl">Total KG</div></div>';
+  html += '<div class="summary-stat"><div class="summary-stat-val">'+record.sts+'</div><div class="summary-stat-lbl">Sets Done</div></div>';
+  html += '</div>';
+
+  // PRs
   if(newPRs.length>0){
-    toast('🏅 New PR: '+newPRs.join(', '));
-  } else {
-    toast('✅ Workout saved!');
+    html += '<div class="summary-pr-box">';
+    html += '<div class="summary-pr-title">🏅 Personal Records Smashed</div>';
+    newPRs.forEach(function(n){ html += '<div class="summary-pr-item">✓ '+n+'</div>'; });
+    html += '</div>';
   }
+
+  // Exercise breakdown
+  html += '<div style="font-size:12px;color:var(--or);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">Exercise Breakdown</div>';
+  html += '<div class="summary-ex-list">';
+  record.exs.forEach(function(exData){
+    var ex = E[exData.id];
+    if(!ex) return;
+    var exVol = exData.sets.reduce(function(s,st){return s+st.w*st.r;},0);
+    html += '<div class="summary-ex">';
+    html += '<div class="summary-ex-name">'+ex.em+' '+ex.n+' <span style="font-size:11px;color:var(--t3);font-weight:400">· '+Math.round(exVol)+'kg vol</span></div>';
+    html += '<div class="summary-ex-sets">';
+    exData.sets.forEach(function(s,i){
+      var wStr = (s.bw||s.w===0)?'BW':s.w+'kg';
+      html += '<div class="summary-set-chip">S'+(i+1)+': <b>'+wStr+' × '+s.r+'</b></div>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div>';
+
+  // Done button
+  html += '<button class="btn btn-g" onclick="closeSummary()" style="margin-top:8px;font-size:16px">🏠 Back to Home</button>';
+  html += '<button class="btn btn-out" onclick="closeSummary();showTab(\'history\')" style="margin-top:8px">📊 View History</button>';
+
+  document.getElementById('summaryContent').innerHTML = html;
+  document.getElementById('summaryScreen').classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function closeSummary(){
+  document.getElementById('summaryScreen').classList.remove('on');
   showTab('home');
+}
+
+// ===== WORKOUT TIMER =====
+function formatWkTime(ms){
+  var s = Math.floor(ms/1000);
+  var m = Math.floor(s/60);
+  var h = Math.floor(m/60);
+  m = m%60; s = s%60;
+  if(h>0) return h+'h '+(m<10?'0':'')+m+'m';
+  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+
+function startWkTimer(){
+  var pill = document.getElementById('wkTimerPill');
+  pill.classList.add('on');
+  if(wkTimerInterval) clearInterval(wkTimerInterval);
+  wkTimerInterval = setInterval(function(){
+    if(!WK.active || !WK.startTime){ stopWkTimer(); return; }
+    document.getElementById('wkTimerDisplay').textContent = formatWkTime(Date.now()-WK.startTime);
+  }, 1000);
+}
+
+function stopWkTimer(){
+  if(wkTimerInterval){ clearInterval(wkTimerInterval); wkTimerInterval=null; }
+  var pill = document.getElementById('wkTimerPill');
+  if(pill) pill.classList.remove('on');
 }
 
 function resetWorkoutState(){
@@ -1248,16 +1369,39 @@ function resetWorkoutState(){
   WK.sets = [];
   WK.volume = 0;
   WK.completedSets = 0;
+  stopWkTimer();
   clearSavedWorkout();
 }
 
 // ===== REST TIMER =====
 var restRemaining = 0;
 
+// Shared AudioContext - created once, reused, properly suspended when app is hidden
+var _audioCtx = null;
+function getAudioCtx(){
+  if(!_audioCtx){
+    try{ _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; }
+  }
+  // Resume if suspended (e.g. after coming back from background)
+  if(_audioCtx.state === 'suspended'){ try{ _audioCtx.resume(); }catch(e){} }
+  return _audioCtx;
+}
+
+// Suspend audio when app goes to background to prevent Android audio glitches
+document.addEventListener('visibilitychange', function(){
+  if(_audioCtx){
+    if(document.hidden){
+      try{ _audioCtx.suspend(); }catch(e){}
+    } else {
+      try{ _audioCtx.resume(); }catch(e){}
+    }
+  }
+});
+
 function playBeep(){
   try{
-    var ctx = new (window.AudioContext||window.webkitAudioContext)();
-    // Three short beeps
+    var ctx = getAudioCtx();
+    if(!ctx) return;
     [0, 0.2, 0.4].forEach(function(delay){
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
@@ -1265,9 +1409,10 @@ function playBeep(){
       gain.connect(ctx.destination);
       osc.frequency.value = 880;
       osc.type = 'square';
-      gain.gain.value = 0.3;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.12);
       osc.start(ctx.currentTime + delay);
-      osc.stop(ctx.currentTime + delay + 0.12);
+      osc.stop(ctx.currentTime + delay + 0.15);
     });
   }catch(e){}
 }
@@ -1785,8 +1930,9 @@ loadData();
 var restSettEl = document.getElementById('restSetting');
 if(restSettEl) restSettEl.textContent = S.restSecs||90;
 renderHome();
-// If there's a saved workout, show workout tab option
+// If there's a saved workout, resume timer
 if(WK.active){
+  startWkTimer();
   showTab('home');
 }
 // ===== SERVICE WORKER =====
