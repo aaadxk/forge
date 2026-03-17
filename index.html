@@ -734,16 +734,16 @@ var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda
 var P = {
   0:{n:'Rest Day',t:'rest',e:[]},
   1:{n:'Chest & Triceps',t:'push',e:['dbPress','dbIncPress','dbFly','dbSqueeze','decPress','benchDip','dbSkullcrusher','ohExt','eccentWristExt']},
-  2:{n:'Back & Biceps',t:'pull',e:['dbBentRow','dbRow','dbRenegadeRow','dbPullover','dbCurl','hammerCurl','incCurl','eccentWristFlex','reverseCurl']},
-  3:{n:'Legs & Core (KOT)',t:'legs',e:['atgSplit','gobletSquat','rdl','tibRaise','stepUp','calfRaise','lunge','dbRollout','plank','lyingLegRaise']},
-  4:{n:'Shoulders & Arms',t:'push',e:['dbOHP','arnoldPress','dbLatRaise','dbRearFly','benchDip','dbCurl','concCurl','wristRotation']},
-  5:{n:'Upper Chest & Triceps',t:'push',e:['dbIncPress','incFly','closeGripPress','dbFloorPress','pushup','dbSkullcrusher','dbKickback','eccentWristExt']},
-  6:{n:'Rest Day',t:'rest',e:[]}
+  2:{n:'Rest Day',t:'rest',e:[]},
+  3:{n:'Back & Biceps',t:'pull',e:['dbBentRow','dbRow','dbPullover','dbCurl','hammerCurl','incCurl','eccentWristFlex','reverseCurl']},
+  4:{n:'Rest Day',t:'rest',e:[]},
+  5:{n:'Shoulders & Arms',t:'push',e:['dbOHP','arnoldPress','dbLatRaise','dbRearFly','dbCurl','concCurl','wristRotation']},
+  6:{n:'Legs & Core (KOT)',t:'legs',e:['atgSplit','gobletSquat','rdl','tibRaise','calfRaise','plank']}
 };
 
 // ===== STATE =====
 var STORE_KEY = 'forge_v11';
-var PLAN_VER = 3; // Bump this when default plan changes
+var PLAN_VER = 4; // Bump this when default plan changes
 var S = {hst:[],prs:{},exH:{},restSecs:90,notes:{}};
 var WK = {active:false,dayKey:null,exIdx:0,startTime:null,sets:[],volume:0,completedSets:0};
 var restTimer = null;
