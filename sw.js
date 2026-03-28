@@ -1,4 +1,4 @@
-var CACHE_NAME = 'forge-v7';
+var CACHE_NAME = 'forge-v6';
 var urlsToCache = [
   './',
   './index.html',
