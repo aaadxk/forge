@@ -512,22 +512,44 @@ var E = {
     i:['Sit, elbow braced on inner thigh','Curl dumbbell up','Squeeze hard at top','Lower slowly, full extension'],
     t:'Pure isolation. Mind-muscle connection.'},
 
-  // LEGS - KOT focused
-  atgSplit:{n:'ATG Split Squat',m:['Quads','Glutes','Knees'],eq:'Dumbbells',c:'legs',sets:3,reps:'8-12',rest:90,
-    i:['Rear foot elevated on bench','Front foot far enough forward','Lower until rear knee nearly touches ground','Drive through front foot, knee tracking over toes'],
-    t:'THE knees-over-toes exercise. Start bodyweight.'},
+  // LEGS - Knee Ability Zero (KAZ) focused
+  backwardWalk:{n:'Backward Walk',m:['Tibialis','Quads','Knees'],eq:'Bodyweight',c:'legs',sets:1,reps:'10min',rest:0,
+    i:['Walk backward at a steady pace — outside, treadmill, or back and forth in a room','Keep posture upright, chin up','Land on your toes, not heel','Start with 5 min and build to 10 min'],
+    t:'Ben Patrick\'s #1 warm-up. Bulletproofs the tibialis and kneecap. Non-negotiable in KAZ.'},
+  tibRaise:{n:'Tibialis Raise',m:['Tibialis','Knees'],eq:'Bodyweight',c:'legs',sets:2,reps:'25',rest:45,
+    i:['Stand with back flat against wall','Feet about 30cm from wall, heels on ground','Raise toes and forefoot as high as possible','Lower slowly — feel the shin muscle work'],
+    t:'Do 2 sets. Ben Patrick says this single exercise can eliminate knee pain.'},
+  fhlCalfRaise:{n:'FHL Calf Raise',m:['Calves','Flexor Hallucis','Knees'],eq:'Bodyweight or Step',c:'legs',sets:1,reps:'25',rest:45,
+    i:['Stand on a step or edge on one foot, big toe side weighted','Drive up through the big toe — not the outer foot','Full range: heel drops below step, rise to full toe extension','Keep knee slightly bent throughout'],
+    t:'FHL = flexor hallucis longus. Targets the inner calf and supports the arch and knee. Big toe drive is key.'},
+  kotCalfRaise:{n:'KOT Calf Raise',m:['Calves','Knees'],eq:'Bodyweight or Step',c:'legs',sets:1,reps:'25',rest:45,
+    i:['Stand on a step, one foot, facing a wall for balance','Let your knee drive forward over your toes as you rise','Full range of motion — deep heel drop at bottom','Slow and controlled, especially on the way down'],
+    t:'Knees-over-toes calf raise. The knee travel forward is the point — don\'t avoid it.'},
+  patrickStep:{n:'Patrick Step',m:['Quads','VMO','Knees'],eq:'Small step or plate (2-5cm)',c:'legs',sets:1,reps:'25',rest:45,
+    i:['Stand with one heel on a very small elevation (a plate or low step)','Drive your knee forward over your toes — as far as it will go','Rise up, then lower under full control','Keep the movement slow and deliberate'],
+    t:'Named after Patrick McKenzie. Similar to Poliquin Step but higher rep. Key VMO and patella tendon conditioner.'},
+  atgSplit:{n:'ATG Split Squat',m:['Quads','Glutes','Knees'],eq:'Bodyweight',c:'legs',sets:5,reps:'5',rest:60,
+    i:['Rear foot elevated on bench or chair','Front foot far enough forward to keep torso upright','Lower all the way until rear knee gently touches floor','Drive through front foot back to start — knee fully over toes'],
+    t:'Zero = bodyweight only. 5 sets of 5, full depth. This is the centrepiece of KAZ. Master this before adding weight.'},
+  elephantWalk:{n:'Elephant Walk',m:['Hamstrings','Calves','Knees'],eq:'Bodyweight',c:'legs',sets:1,reps:'30',rest:30,
+    i:['Stand with feet hip-width, legs straight','Walk forward by reaching each foot out — keep legs straight','Flex your foot up (dorsiflexed) as the leg swings forward','Feel the hamstring stretch with each step'],
+    t:'Dynamic hamstring stretch. Great after squats. Keeps the posterior chain supple.'},
+  lSit:{n:'L-Sit Hold',m:['Core','Hip Flexors','Quads'],eq:'Bodyweight (floor or parallettes)',c:'core',sets:2,reps:'20s',rest:30,
+    i:['Sit on floor, legs straight out in front','Place hands beside hips, press into floor','Lift your hips off the ground — legs stay straight','Hold position, breathing steadily'],
+    t:'Very hard. Start with feet on floor if needed. Builds hip flexor and core strength essential for knee health.'},
+  couchStretch:{n:'Couch Stretch',m:['Hip Flexors','Quads','Knees'],eq:'Bodyweight, Wall',c:'legs',sets:2,reps:'60s',rest:30,
+    i:['Kneel facing away from a wall','Slide one foot up the wall so your shin is flat against it','Bring the other foot forward into a lunge position','Hold upright, squeezing glute of the back leg'],
+    t:'One of the most important mobility exercises for knee health. Tight hip flexors are a root cause of knee pain.'},
+  // existing exercises kept in DB for customize use
   gobletSquat:{n:'Goblet Squat (KOT)',m:['Quads','Glutes','Core'],eq:'Dumbbell',c:'legs',sets:3,reps:'10-15',rest:90,
     i:['Hold dumbbell at chest','Feet shoulder width','Let knees track forward over toes','Squat as deep as possible'],
     t:'Go deep! Allow full knee flexion over toes.'},
-  tibRaise:{n:'Tibialis Raise',m:['Tibialis','Knees'],eq:'Bodyweight',c:'legs',sets:3,reps:'15-25',rest:45,
-    i:['Stand with back against wall','Feet about 12 inches from wall','Raise toes up as high as possible','Lower slowly'],
-    t:'Bulletproof your knees. Ben Patrick\'s #1 exercise.'},
   poliquinStepUp:{n:'Poliquin Step Up',m:['Quads','VMO','Knees'],eq:'Step or Plate',c:'legs',sets:3,reps:'10-15',rest:60,
-    i:['Stand with heel of one foot on a small elevation (2-5cm plate or step edge)','Drive the knee of that foot forward over the toes','Rise up onto the ball of your foot','Lower slowly under control'],
-    t:'Isolates the VMO (inner quad). Key for knee health. Start with no weight.'},
+    i:['Stand with heel of one foot on a small elevation (2-5cm)','Drive the knee of that foot forward over the toes','Rise up onto the ball of your foot','Lower slowly under control'],
+    t:'Isolates the VMO. Key for knee health. Start with no weight.'},
   nordicCurl:{n:'Nordic Hamstring Curl',m:['Hamstrings','Knees'],eq:'Bench (anchor feet)',c:'legs',sets:3,reps:'4-8',rest:90,
-    i:['Kneel on soft surface, anchor feet under bench','Body upright, arms crossed at chest','Lower body toward floor by extending knees — fight the fall','Catch yourself then use arms to push back up'],
-    t:'One of the best hamstring exercises. Extremely hard — use arms to help at first.'},
+    i:['Kneel on soft surface, anchor feet under bench','Body upright, arms crossed at chest','Lower body toward floor — fight the fall','Catch yourself then push back up'],
+    t:'Extremely hard — use arms to help at first.'},
   rdl:{n:'DB Romanian Deadlift',m:['Hamstrings','Glutes','Lower Back'],eq:'Dumbbells',c:'legs',sets:3,reps:'10-12',rest:90,
     i:['Stand with dumbbells in front of thighs','Hinge at hips, pushing butt back','Lower until you feel hamstring stretch','Drive hips forward to stand'],
     t:'Soft knees, not locked. Feel it in hamstrings.'},
@@ -535,7 +557,7 @@ var E = {
     i:['Stand on edge of step on one foot','Hold dumbbell on same side','Lower heel below step level','Rise up on toes as high as possible'],
     t:'Full range of motion. Slow negatives.'},
   stepUp:{n:'Step-Up (KOT)',m:['Quads','Glutes'],eq:'Bench, Dumbbells',c:'legs',sets:3,reps:'10-12',rest:60,
-    i:['Place foot on bench','Let knee travel forward over toes','Drive up through front foot','Lower slowly, control the negative'],
+    i:['Place foot on bench','Let knee travel forward over toes','Drive up through front foot','Lower slowly'],
     t:'Allow full knee flexion over toes.'},
   lunge:{n:'Walking Lunge',m:['Quads','Glutes'],eq:'Dumbbells',c:'legs',sets:3,reps:'10-12',rest:60,
     i:['Hold dumbbells at sides','Step forward into lunge','Knee tracks over toes','Push off and step into next lunge'],
@@ -580,12 +602,12 @@ var P = {
   3:{n:'Back & Biceps',t:'pull',e:['dbBentRow','dbRow','dbPullover','dbCurl','hammerCurl','eccentWristFlex']},
   4:{n:'Rest Day',t:'rest',e:[]},
   5:{n:'Shoulders',t:'push',e:['dbOHP','arnoldPress','dbLatRaise','dbRearFly','dbFrontRaise']},
-  6:{n:'Legs & Core (KOT)',t:'legs',e:['atgSplit','gobletSquat','poliquinStepUp','nordicCurl','tibRaise','calfRaise']}
+  6:{n:'Legs & Core (KAZ)',t:'legs',e:['backwardWalk','tibRaise','fhlCalfRaise','kotCalfRaise','patrickStep','atgSplit','elephantWalk','lSit','couchStretch']}
 };
 
 // ===== STATE =====
 var STORE_KEY = 'forge_v11';
-var PLAN_VER = 5;
+var PLAN_VER = 6;
 var S = {hst:[],prs:{},exH:{},restSecs:90,notes:{}};
 var WK = {active:false,dayKey:null,exIdx:0,startTime:null,sets:[],volume:0,completedSets:0,exList:null};
 var restTimer = null;
