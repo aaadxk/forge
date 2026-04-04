@@ -1180,7 +1180,7 @@ function renderWorkoutExercise(){
     var wVal = isBW?'0':(sets[s].w===0?'0':(sets[s].w||''));
     var rVal = sets[s].r||'';
     html += '<div class="set-row'+(isDone?' set-completed':'')+'">';
-    html += '<div class="set-num">S'+(s+1)+'</div>';
+    html += '<div class="set-num" onclick="clearSet('+s+')" style="cursor:pointer;color:var(--t3);user-select:none" title="Tap to clear">S'+(s+1)+'</div>';
     html += '<div class="bw-btn'+(isBW?' on':'')+'" onclick="toggleBW('+s+')">BW</div>';
     html += '<div class="set-col"><input class="set-input" type="number" inputmode="decimal" step="0.5" placeholder="kg" value="'+wVal+'" '+(isBW?'disabled style="opacity:.4"':'')+' onchange="updateSet('+s+',\'w\',this.value)"><div class="set-lbl">kg</div></div>';
     html += '<div class="set-col"><input class="set-input" type="number" inputmode="numeric" placeholder="reps" value="'+rVal+'" onchange="updateSet('+s+',\'r\',this.value)"><div class="set-lbl">reps</div></div>';
@@ -1214,6 +1214,19 @@ function renderWorkoutExercise(){
 }
 
 function updateSet(idx,field,val){WK.sets[WK.exIdx][idx][field]=parseFloat(val)||0;saveWorkout();}
+
+function clearSet(idx){
+  var set = WK.sets[WK.exIdx][idx];
+  // If the set was marked done, undo that first
+  if(set.done){
+    set.done = false;
+    WK.completedSets--;
+    WK.volume -= set.w * set.r;
+  }
+  set.w = 0; set.r = 0; set.bw = false;
+  saveWorkout();
+  renderWorkoutExercise();
+}
 function toggleBW(idx){var set=WK.sets[WK.exIdx][idx];set.bw=!set.bw;if(set.bw)set.w=0;saveWorkout();renderWorkoutExercise();}
 
 function toggleSet(idx){
