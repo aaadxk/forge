@@ -236,12 +236,12 @@ input[type=file]{display:none}
 .coach-divider{font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;padding:10px 0 5px;border-bottom:1px solid var(--bor);margin-bottom:8px}
 
 /* Exercise images */
-.ex-img-panel{position:relative;width:100%;aspect-ratio:16/9;background:var(--card2);border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid var(--bor)}
-.ex-img-panel img{width:100%;height:100%;object-fit:cover;display:block}
-.ex-img-panel .ex-img-slots{display:flex;width:100%;height:100%}
+.ex-img-panel{position:relative;width:100%;background:var(--card2);border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid var(--bor)}
+.ex-img-panel img{width:100%;height:auto;object-fit:contain;display:block;max-height:280px}
+.ex-img-panel .ex-img-slots{display:flex;width:100%;align-items:flex-start}
 .ex-img-panel .ex-img-slots .slot{flex:1;position:relative;overflow:hidden}
 .ex-img-panel .ex-img-slots .slot+.slot{border-left:2px solid var(--bg)}
-.ex-img-panel .ex-img-slots .slot img{width:100%;height:100%;object-fit:cover;display:block}
+.ex-img-panel .ex-img-slots .slot img{width:100%;height:auto;object-fit:contain;display:block;max-height:220px}
 .ex-img-panel .ex-img-slots .slot .slot-lbl{position:absolute;bottom:4px;left:6px;font-size:9px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .ex-img-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:100%;cursor:pointer}
 .ex-img-empty svg{opacity:.3}
@@ -1057,33 +1057,41 @@ function getCoachRec(exId){
 
   var cls, title, detail, setSuggestions;
   var curDB = nearestDBWeight(avgWeight);
+  var numSets = exDef.sets || lastSets.length; // always match current exercise set count
   if(isTimed){
     cls='same'; title='→ Build endurance'; detail='Try to add 5-10 seconds each session.';
-    setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:s.r+'s+'};});
+    setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:s.r+'s+'};});
+    while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:'—'});
   } else if(isBW){
     if(allHitMax){cls='up';title='↑ Add difficulty';detail='You hit '+targetMax+' reps on all sets. Try adding weight or slowing tempo.';}
     else{cls='same';title='→ Push for '+targetMax+' reps';detail='Get all sets to '+targetMax+' reps before adding difficulty.';}
-    setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:'BW × '+Math.min(s.r+1,targetMax)};});
+    setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:'BW × '+Math.min(s.r+1,targetMax)};});
+    while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:'BW × '+targetMin});
   } else if(allHitMax){
     var nw = nextDBWeight(curDB);
     cls='up'; title='↑ Move to '+nw+'kg'; detail='You hit '+targetMax+' reps on all sets at '+curDB+'kg. Jump to '+nw+'kg, target '+targetMin+' reps.';
-    setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:nw+'kg × '+targetMin+'-'+targetMax,w:nw};});
+    setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:nw+'kg × '+targetMin+'-'+targetMax,w:nw};});
+    while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:nw+'kg × '+targetMin+'-'+targetMax,w:nw});
   } else if(anyFailed){
     var failedCount = lastSets.filter(function(s){return s.r<targetMin;}).length;
     if(failedCount>=lastSets.length-1){
       var dw = prevDBWeight(curDB);
       cls='down'; title='↓ Drop to '+dw+'kg'; detail='Only '+Math.round(avgReps)+' avg reps. Drop to '+dw+'kg, focus on form.';
-      setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:dw+'kg × '+targetMin+'-'+targetMax,w:dw};});
+      setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:dw+'kg × '+targetMin+'-'+targetMax,w:dw};});
+      while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:dw+'kg × '+targetMin+'-'+targetMax,w:dw});
     } else {
       cls='same'; title='→ Stay at '+curDB+'kg'; detail='Close — hit '+targetMin+'+ on all sets before jumping to '+nextDBWeight(curDB)+'kg.';
-      setSuggestions = lastSets.map(function(s,i){var t=s.r>=targetMax?targetMax:Math.min(s.r+1,targetMax);return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+t+'+'};});
+      setSuggestions = lastSets.slice(0,numSets).map(function(s,i){var t=s.r>=targetMax?targetMax:Math.min(s.r+1,targetMax);return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+t+'+'};});
+      while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:curDB+'kg × '+targetMin+'-'+targetMax});
     }
   } else if(allHitMin){
     cls='same'; title='→ Push for more reps'; detail='In range. Get '+targetMax+' on every set, then move to '+nextDBWeight(curDB)+'kg.';
-    setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+Math.min(s.r+1,targetMax)};});
+    setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+Math.min(s.r+1,targetMax)};});
+    while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:curDB+'kg × '+Math.min(Math.round(avgReps)+1,targetMax)});
   } else {
     cls='same'; title='→ Stay at '+curDB+'kg'; detail='Hit '+targetMin+'-'+targetMax+' on all sets. Next: '+nextDBWeight(curDB)+'kg.';
-    setSuggestions = lastSets.map(function(s,i){return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+targetMin+'-'+targetMax};});
+    setSuggestions = lastSets.slice(0,numSets).map(function(s,i){return {set:i+1,text:nearestDBWeight(s.w)+'kg × '+targetMin+'-'+targetMax};});
+    while(setSuggestions.length<numSets) setSuggestions.push({set:setSuggestions.length+1,text:curDB+'kg × '+targetMin+'-'+targetMax});
   }
   return {cls:cls,title:title,detail:detail,setSuggestions:setSuggestions,lastSets:lastSets,totalVol:totalVol,trend:trend,isBW:isBW,isTimed:isTimed};
 }
