@@ -79,11 +79,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;c
 .ex-active{background:var(--card);border:1px solid var(--bor);border-radius:14px;padding:14px;margin-bottom:10px}
 .ex-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
 .ex-name{font-size:16px;font-weight:700;color:var(--t1)}
-.ex-badge{font-size:10px;padding:3px 7px;border-radius:5px;font-weight:700;flex-shrink:0}
+.ex-badge{font-size:11px;padding:4px 9px;border-radius:6px;font-weight:800;flex-shrink:0;letter-spacing:.3px}
 .ex-badge.rehab{background:var(--bl2);color:var(--bl)}
-.ex-badge.rec-up{background:var(--gr2);color:var(--gr)}
-.ex-badge.rec-down{background:rgba(255,71,87,.12);color:var(--rd)}
-.ex-badge.rec-same{background:rgba(255,193,7,.1);color:var(--yl)}
+.ex-badge.rec-up{background:rgba(0,210,106,.18);color:#00d26a;border:1px solid rgba(0,210,106,.3)}
+.ex-badge.rec-down{background:rgba(255,71,87,.18);color:#ff4757;border:1px solid rgba(255,71,87,.3)}
+.ex-badge.rec-same{background:rgba(255,193,7,.14);color:#ffc107;border:1px solid rgba(255,193,7,.3)}
 .ex-muscles{font-size:11px;color:var(--t2);margin-bottom:4px}
 .ex-equip{font-size:10px;color:var(--t3);margin-bottom:8px}
 
@@ -234,6 +234,31 @@ input[type=file]{display:none}
 .coach-set{background:var(--card2);border-radius:5px;padding:3px 8px;font-size:11px;color:var(--t1)}
 .coach-set b{color:var(--ac)}
 .coach-divider{font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;padding:10px 0 5px;border-bottom:1px solid var(--bor);margin-bottom:8px}
+
+/* Workout inline coach rec — bold banner */
+.wk-rec{border-radius:10px;margin-bottom:10px;cursor:pointer;overflow:hidden}
+.wk-rec.up{background:rgba(0,210,106,.12);border:1.5px solid rgba(0,210,106,.35)}
+.wk-rec.down{background:rgba(255,71,87,.12);border:1.5px solid rgba(255,71,87,.35)}
+.wk-rec.same{background:rgba(255,193,7,.1);border:1.5px solid rgba(255,193,7,.3)}
+.wk-rec-main{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.wk-rec-arrow{font-size:28px;font-weight:900;line-height:1;flex-shrink:0;width:36px;text-align:center}
+.wk-rec.up .wk-rec-arrow{color:#00d26a}
+.wk-rec.down .wk-rec-arrow{color:#ff4757}
+.wk-rec.same .wk-rec-arrow{color:#ffc107}
+.wk-rec-body{flex:1;min-width:0}
+.wk-rec-title{font-size:14px;font-weight:800;line-height:1.2}
+.wk-rec.up .wk-rec-title{color:#00d26a}
+.wk-rec.down .wk-rec-title{color:#ff4757}
+.wk-rec.same .wk-rec-title{color:#ffc107}
+.wk-rec-detail{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
+.wk-rec-chevron{font-size:14px;color:var(--t3);flex-shrink:0}
+.wk-rec-sets{padding:0 12px 10px;display:none}
+.wk-rec-sets.show{display:block}
+.wk-rec-sets-inner{display:flex;gap:5px;flex-wrap:wrap}
+.wk-rec-chip{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;color:var(--t1)}
+.wk-rec.up .wk-rec-chip{background:rgba(0,210,106,.15);border:1px solid rgba(0,210,106,.25)}
+.wk-rec.down .wk-rec-chip{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.2)}
+.wk-rec.same .wk-rec-chip{background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.2)}
 
 /* Exercise images */
 .ex-img-panel{position:relative;width:100%;background:var(--card2);border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid var(--bor)}
@@ -1167,17 +1192,23 @@ function renderWorkoutExercise(){
   if(pr) html += '<div style="font-size:10px;color:var(--yl);margin-bottom:6px">PR: <b>'+pr.w+'kg × '+pr.r+'</b> reps</div>';
 
   // Target + coach rec inline
-  html += '<div style="font-size:10px;color:var(--t3);margin-bottom:6px">Target: '+ex.sets+' × '+(ex.reps||'10-12')+' | Rest: '+(ex.rest||60)+'s</div>';
+  html += '<div style="font-size:10px;color:var(--t3);margin-bottom:8px">Target: '+ex.sets+' × '+(ex.reps||'10-12')+' | Rest: '+(ex.rest||60)+'s</div>';
   var coachRec = getCoachRec(exId);
   if(coachRec){
-    html += '<div class="coach-rec '+coachRec.cls+'" style="margin-bottom:8px;cursor:pointer;font-size:11px" onclick="this.nextElementSibling.classList.toggle(\'show\')">';
-    html += '<div>'+coachRec.title+'</div>';
-    html += '<div class="coach-rec-detail">'+coachRec.detail+' <span style="opacity:.5">▾</span></div>';
+    var arrow = coachRec.cls==='up' ? '↑' : coachRec.cls==='down' ? '↓' : '→';
+    html += '<div class="wk-rec '+coachRec.cls+'" onclick="var s=this.querySelector(\'.wk-rec-sets\');s.classList.toggle(\'show\');this.querySelector(\'.wk-rec-chevron\').textContent=s.classList.contains(\'show\')?\'▴\':\'▾\'">';
+    html += '<div class="wk-rec-main">';
+    html += '<div class="wk-rec-arrow">'+arrow+'</div>';
+    html += '<div class="wk-rec-body"><div class="wk-rec-title">'+coachRec.title+'</div><div class="wk-rec-detail">'+coachRec.detail+'</div></div>';
+    html += '<div class="wk-rec-chevron">▾</div>';
     html += '</div>';
-    html += '<div class="ex-instr"><div class="coach-sets">';
-    coachRec.setSuggestions.forEach(function(s){html += '<div class="coach-set">S'+s.set+': <b>'+s.text+'</b></div>';});
+    html += '<div class="wk-rec-sets"><div class="wk-rec-sets-inner">';
+    coachRec.setSuggestions.forEach(function(s){
+      html += '<div class="wk-rec-chip">S'+s.set+': '+s.text+'</div>';
+    });
+    if(coachRec.trend) html += '</div><div style="font-size:10px;margin-top:6px;color:var(--t2)">'+coachRec.trend+'</div>';
+    else html += '</div>';
     html += '</div>';
-    if(coachRec.trend) html += '<div style="font-size:10px;margin-top:5px;color:var(--t2)">'+coachRec.trend+'</div>';
     html += '</div>';
   }
 
