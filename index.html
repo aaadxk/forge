@@ -464,10 +464,10 @@ function catIcon(cat, size) {
 // ===== EXERCISE DATABASE =====
 var E = {
   // CHEST
-  dbPress:{n:'Dumbbell Bench Press',m:['Chest','Triceps'],eq:'Dumbbells, Bench',c:'chest',sets:3,reps:'8-12',rest:75,
+  dbPress:{n:'Dumbbell Bench Press',m:['Chest','Triceps'],eq:'Dumbbells, Bench',c:'chest',sets:4,reps:'4-6',rest:90,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/1.jpg'},
     i:['Lie flat on bench, feet planted','Hold dumbbells at chest level, palms forward','Press up until arms extended','Lower slowly to chest level'],
     t:'Keep shoulder blades squeezed. Control the negative.'},
-  dbIncPress:{n:'Incline DB Press',m:['Upper Chest','Triceps'],eq:'Dumbbells, Incline Bench',c:'chest',sets:3,reps:'8-12',rest:75,
+  dbIncPress:{n:'Incline DB Press',m:['Upper Chest','Triceps'],eq:'Dumbbells, Incline Bench',c:'chest',sets:3,reps:'6-8',rest:75,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Press/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Press/1.jpg'},
     i:['Set bench to 30-45 degrees','Press dumbbells from upper chest','Extend arms, slight inward arc','Lower with control'],
     t:'30° hits upper chest best. Don\'t go too steep.'},
   dbFly:{n:'Dumbbell Fly',m:['Chest'],eq:'Dumbbells, Bench',c:'chest',sets:3,reps:'10-15',rest:50,
@@ -493,10 +493,10 @@ var E = {
     t:'Floor limits ROM — great for lockout strength and shoulder safety.'},
 
   // BACK
-  dbBentRow:{n:'Bent Over DB Row',m:['Back','Biceps','Scapula'],eq:'Dumbbells',c:'back',sets:3,reps:'8-12',rest:75,
+  dbBentRow:{n:'Bent Over DB Row',m:['Back','Biceps','Scapula'],eq:'Dumbbells',c:'back',sets:4,reps:'4-6',rest:90,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Two-Dumbbell_Row/1.jpg'},
     i:['Hinge forward at hips, flat back — not rounded','Before pulling, depress your shoulder blades DOWN away from ears','Row both dumbbells to lower ribcage — not waist, not shoulders','Squeeze shoulder blades together at the top, hold 1 second','Lower with control — feel the stretch across your upper back'],
     t:'Scapular position is everything here. If your upper back/scapula hurts, you\'re shrugging your shoulders up. Pull the blades DOWN first, then row.'},
-  dbRow:{n:'Single Arm DB Row',m:['Back','Biceps','Scapula'],eq:'Dumbbell, Bench',c:'back',sets:3,reps:'8-12',rest:75,
+  dbRow:{n:'Single Arm DB Row',m:['Back','Biceps','Scapula'],eq:'Dumbbell, Bench',c:'back',sets:3,reps:'6-8',rest:75,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/One-Arm_Dumbbell_Row/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/One-Arm_Dumbbell_Row/1.jpg'},
     i:['One knee and hand on bench, back flat and parallel to floor','Start by depressing the shoulder blade — pull it away from your ear','Row dumbbell to your hip — elbow drives back, not out','Squeeze the lat hard at the top, pause 1 second','Lower all the way — let the shoulder blade protract slightly at the bottom for full range'],
     t:'The full range — letting the scapula move at the bottom — is what strengthens it. Don\'t just row the arm, row the whole shoulder girdle.'},
   dbRenegadeRow:{n:'Renegade Row',m:['Back','Core'],eq:'Dumbbells',c:'back',sets:3,reps:'8-10',rest:90,
@@ -507,19 +507,19 @@ var E = {
     t:'Feel the stretch in your lats at the bottom.'},
 
   // SHOULDERS
-  dbOHP:{n:'DB Overhead Press',m:['Shoulders','Triceps'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'8-12',rest:75,
+  dbOHP:{n:'DB Overhead Press',m:['Shoulders','Triceps'],eq:'Dumbbells',c:'shoulders',sets:4,reps:'4-6',rest:90,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shoulder_Press/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shoulder_Press/1.jpg'},
     i:['Seated or standing, dumbbells at shoulder height','Press overhead','Bring dumbbells close at top','Lower to shoulders'],
     t:'Seated for stricter form, standing for more core work.'},
-  dbLatRaise:{n:'Lateral Raise',m:['Side Delts'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'12-15',rest:40,
+  dbLatRaise:{n:'Lateral Raise',m:['Side Delts'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'10-12',rest:40,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/1.jpg'},
     i:['Stand with dumbbells at sides','Raise arms to sides, slight bend in elbows','Stop at shoulder height','Lower slowly'],
     t:'Light weight, high reps. Lead with elbows.'},
   dbFrontRaise:{n:'Front Raise',m:['Front Delts'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'12-15',rest:40,
     i:['Hold dumbbells in front of thighs','Raise one or both arms to eye level','Lower with control','Alternate arms if preferred'],
     t:'Thumbs slightly up to protect shoulders.'},
-  dbRearFly:{n:'Rear Delt Fly',m:['Rear Delts'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'12-15',rest:40,
+  dbRearFly:{n:'Rear Delt Fly',m:['Rear Delts'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'10-12',rest:40,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Bent-Over_Rear_Delt_Raise/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Bent-Over_Rear_Delt_Raise/1.jpg'},
     i:['Bend forward at hips','Arms hanging down','Raise to sides, squeezing rear delts','Lower slowly'],
     t:'Often neglected! Crucial for shoulder health.'},
-  arnoldPress:{n:'Arnold Press',m:['Shoulders'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'8-12',rest:75,
+  arnoldPress:{n:'Arnold Press',m:['Shoulders'],eq:'Dumbbells',c:'shoulders',sets:3,reps:'6-8',rest:75,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arnold_Dumbbell_Press/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arnold_Dumbbell_Press/1.jpg'},
     i:['Start with dumbbells in front, palms facing you','Rotate palms outward as you press up','Full extension at top','Reverse the rotation coming down'],
     t:'Smooth rotation throughout the movement.'},
 
@@ -527,7 +527,7 @@ var E = {
   benchDip:{n:'Bench Dip',m:['Triceps','Chest'],eq:'Bench',c:'triceps',sets:3,reps:'10-15',rest:60,
     i:['Hands on bench behind you, fingers forward','Feet on floor (or elevated on second bench)','Lower body by bending elbows to 90°','Press back up, fully extend arms'],
     t:'Keep back close to bench. Elevate feet to make harder.'},
-  dbSkullcrusher:{n:'DB Skull Crusher',m:['Triceps'],eq:'Dumbbells, Bench',c:'triceps',sets:3,reps:'10-12',rest:60,
+  dbSkullcrusher:{n:'DB Skull Crusher',m:['Triceps'],eq:'Dumbbells, Bench',c:'triceps',sets:3,reps:'6-8',rest:60,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/EZ-Bar_Skullcrusher/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/EZ-Bar_Skullcrusher/1.jpg'},
     i:['Lie on bench, arms extended over chest','Bend elbows, lower dumbbells to temples','Keep upper arms still','Extend back up'],
     t:'Keep elbows pointing to ceiling.'},
   dbKickback:{n:'Tricep Kickback',m:['Triceps'],eq:'Dumbbell',c:'triceps',sets:3,reps:'12-15',rest:45,
@@ -541,7 +541,7 @@ var E = {
   dbCurl:{n:'Dumbbell Curl',m:['Biceps'],eq:'Dumbbells',c:'biceps',sets:3,reps:'10-12',rest:60,
     i:['Stand with dumbbells at sides','Curl up, rotating palms to face shoulders','Squeeze at top','Lower slowly'],
     t:'Don\'t swing! Strict form = better biceps.'},
-  hammerCurl:{n:'Hammer Curl',m:['Biceps','Forearms'],eq:'Dumbbells',c:'biceps',sets:3,reps:'10-12',rest:60,
+  hammerCurl:{n:'Hammer Curl',m:['Biceps','Forearms'],eq:'Dumbbells',c:'biceps',sets:3,reps:'8-10',rest:60,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/1.jpg'},
     i:['Palms facing each other (neutral grip)','Curl up keeping neutral grip','Squeeze at top','Lower slowly'],
     t:'Targets the brachialis for arm thickness.'},
   incCurl:{n:'Incline DB Curl',m:['Biceps'],eq:'Dumbbells, Incline Bench',c:'biceps',sets:3,reps:'10-12',rest:60,
@@ -602,12 +602,12 @@ var E = {
     i:['Hold dumbbells at sides','Step forward into lunge','Knee tracks over toes','Push off and step into next lunge'],
     t:'Light weight, focus on control and balance.'},
 
-  facePull:{n:'Face Pull',m:['Rear Delts','Scapula','Rotator Cuff'],eq:'Resistance Band or Cable',c:'back',sets:3,reps:'15-20',rest:45,rh:true,
+  facePull:{n:'Face Pull',m:['Rear Delts','Scapula','Rotator Cuff'],eq:'Resistance Band or Cable',c:'back',sets:3,reps:'15-20',rest:45,rh:true,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/1.jpg'},
     i:['Anchor a resistance band at face height','Grab both ends, step back until band is taut','Pull toward your face, elbows flaring high and wide','Finish with hands beside ears, shoulder blades fully retracted','Slowly return — feel the stretch across the upper back'],
     t:'THE exercise for scapular health and shoulder longevity. Light weight, high reps, every session. Strengthens the lower traps and rotator cuff that stabilise your scapula.'},
 
   // CORE
-  deadBug:{n:'Dead Bug',m:['Core','Lower Back'],eq:'Bodyweight',c:'core',sets:2,reps:'8-10',rest:30,
+  deadBug:{n:'Dead Bug',m:['Core','Lower Back'],eq:'Bodyweight',c:'core',sets:2,reps:'8-10',rest:30,di:{a:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dead_Bug/0.jpg',b:'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dead_Bug/1.jpg'},
     i:['Lie on back, arms pointing to ceiling, knees bent 90° in the air','Press your lower back firmly into the floor — keep it there throughout','Slowly lower opposite arm and leg toward the floor simultaneously','Stop just before your lower back lifts off — return and switch sides','Breathe out as you lower, breathe in as you return'],
     t:'The best lower back stability exercise. If your back lifts off the floor, you\'ve gone too far. This teaches your core to protect your spine — exactly what you need.'},
   birdDog:{n:'Bird Dog',m:['Core','Lower Back','Scapula'],eq:'Bodyweight',c:'core',sets:2,reps:'8-10',rest:30,
@@ -650,17 +650,17 @@ var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda
 var DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var P = {
   0:{n:'Rest Day',t:'rest',e:[]},
-  1:{n:'Chest & Triceps',t:'push',e:['dbPress','dbIncPress','dbFly','dbSkullcrusher','ohExt']},
+  1:{n:'Chest & Triceps',t:'push',e:['dbPress','dbIncPress','dbSkullcrusher']},
   2:{n:'Rest Day',t:'rest',e:[]},
-  3:{n:'Back, Biceps & Core',t:'pull',e:['dbBentRow','dbRow','dbPullover','dbCurl','hammerCurl','eccentWristFlex','facePull','deadBug','birdDog']},
+  3:{n:'Back, Biceps & Core',t:'pull',e:['dbBentRow','dbRow','hammerCurl','facePull','deadBug']},
   4:{n:'Rest Day',t:'rest',e:[]},
-  5:{n:'Shoulders',t:'push',e:['dbOHP','arnoldPress','dbLatRaise','dbRearFly','dbFrontRaise']},
-  6:{n:'Legs & Core (KAZ)',t:'legs',e:['backwardWalk','tibRaise','fhlCalfRaise','kotCalfRaise','patrickStep','atgSplit','elephantWalk','lSit','couchStretch']}
+  5:{n:'Shoulders',t:'push',e:['dbOHP','arnoldPress','dbLatRaise','dbRearFly']},
+  6:{n:'Legs & Core (KAZ)',t:'legs',e:['backwardWalk','tibRaise','atgSplit','patrickStep','kotCalfRaise','couchStretch']}
 };
 
 // ===== STATE =====
 var STORE_KEY = 'forge_v11';
-var PLAN_VER = 8;
+var PLAN_VER = 9;
 var S = {hst:[],prs:{},exH:{},restSecs:90,notes:{}};
 var WK = {active:false,dayKey:null,exIdx:0,startTime:null,sets:[],volume:0,completedSets:0,exList:null};
 var restTimer = null;
@@ -786,7 +786,9 @@ function removeExImage(exId, slot){
 
 function exImgHtml(exId, compact){
   // compact = true for workout card (smaller), false for modal (full)
-  var imgs = EX_IMGS[exId] || {};
+  var uploaded = EX_IMGS[exId] || {};
+  var defaults = (E[exId] && E[exId].di) || {};
+  var imgs = { a: uploaded.a || defaults.a, b: uploaded.b || defaults.b };
   var hasA = !!imgs.a, hasB = !!imgs.b;
   if(!hasA && !hasB) return ''; // nothing to show in compact mode
 
@@ -891,7 +893,7 @@ function renderHome(){
     html += '<div class="card" style="border-color:var(--bor2);cursor:pointer;box-shadow:var(--glow-sm)" onclick="startWorkout('+today+')">';
     html += '<div class="hero-tag">Today</div>';
     html += '<div style="font-size:17px;font-weight:700;margin:3px 0;color:var(--t1)">'+todayPlan.n+'</div>';
-    html += '<div style="font-size:11px;color:var(--t2)">'+todayPlan.e.filter(function(id){return E[id];}).length+' exercises · ~30-40 min</div>';
+    html += '<div style="font-size:11px;color:var(--t2)">'+todayPlan.e.filter(function(id){return E[id];}).length+' exercises · ~25-30 min</div>';
     html += '<button class="btn" onclick="event.stopPropagation();startWorkout('+today+')" style="margin-top:8px;padding:10px">Start Workout</button>';
     html += '</div>';
   } else {
